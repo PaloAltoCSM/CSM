@@ -14,7 +14,6 @@ from django.contrib.auth import logout as auth_logout
 from django.conf import settings
 
 #from jumpchat.socketio_ns import V1Namespace
-import ShareCamReg
 import string
 import random
 import logging
