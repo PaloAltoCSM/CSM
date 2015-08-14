@@ -24,6 +24,21 @@ class Blog:
             return None
         return user[0]
 
+    def checkUser(self, username, realname, email):
+        user = self.findUser(username)
+        if user:
+            return user
+        parts = realname.split()
+        if len(parts) == 1:
+            first_name = parts[0]
+            last_name = ""
+        else:
+            first_name = parts[0]
+            last_name = parts[1]
+        user = User(username=username, email=email,
+                    first_name=first_name, last_name=last_name)
+        user.save()
+
     def dumpUsers(self):
         print "Users:"
         for user in User.objects.all():
@@ -40,7 +55,7 @@ class Blog:
             for author in authors:
                 print "  ", author
 
-    def addEntry(self, author, title, content):
+    def addEntry(self, author, title, content, date):
         user = self.findUser(author)
         if not user:
             return "Can't find user"
@@ -51,7 +66,8 @@ class Blog:
                 'authors': [user.pk],
                 'content_template': 'zinnia/_entry_detail.html',
                 'detail_template': 'entry_detail.html',
-                'creation_date': timezone.now(),
+#                'creation_date': timezone.now(),
+                'creation_date': date,
                 'last_update': timezone.now(),
                 'content': content,
                 'tags': "dummy"}

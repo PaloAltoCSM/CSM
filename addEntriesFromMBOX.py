@@ -14,24 +14,29 @@ class Parser(MP.MailParser):
     def saveToBlog(self, key, part, subject, ttype):
         body = part.get_payload(decode=True)
         post = self.postsByKey[key]
-        author = post['author']
+        author_username = post['author_username']
+        author_name = post['author_name']
+        author_email = post['author_email']
+        date = post['date']
         vals = {'body': body,
                 'subject': subject}
         htmlStr = HTML_TEMPLATE % vals
         #htmlStr = "this is dummy body."
         #subject = "Dummy Subject"
-        author = "omohundro"
-        print "author:", author
+        author = author_username
+        self.blog.checkUser(author, author_name, author_email)
+        print "author:", author, author_name
         print "title:", subject
         print "body:", htmlStr[:10]
-        self.blog.addEntry(author, subject, htmlStr)
+        self.blog.addEntry(author, subject, htmlStr, date)
 
 def run():
     blog = Blog()
     mboxDir = "C:/kimber/CSM"
     mp = Parser("CSM", mboxDir)
     mp.blog = blog
-    mp.scan(20)
+#    mp.scan(20)
+    mp.scan()
 #    mp.group()
 
 if __name__ == '__main__':

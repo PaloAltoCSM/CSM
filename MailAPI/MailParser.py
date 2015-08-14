@@ -40,14 +40,19 @@ POST_TEMPLATE = """
 <a href="%(htmlUrl)s">%(subject)s</a>
 %(author)s<br>\n"""
 
+
 def getDate(date):
     if not date:
         return date
     date_tuple=email.utils.parsedate_tz(date)
     if date_tuple:
-        date=datetime.datetime.fromtimestamp(email.utils.mktime_tz(date_tuple))
-    ds = date.strftime("%A %Y/%m/%d %H:%M:%S %z")
-    return ds
+        return datetime.datetime.fromtimestamp(email.utils.mktime_tz(date_tuple))
+    print "Cannot parse date"
+    return None
+
+def getDateStr(date):
+    date = getDate(date)
+    return date.strftime("%A %Y/%m/%d %H:%M:%S %z")
 
 def getRefs(str):
     if str:
@@ -76,8 +81,6 @@ class MailParser:
         self.mboxPath = mboxPath
         self.mbox = mailbox.mbox(mboxPath)
         self.contentTypes = {}
-        self.subjects = {}
-        self.authors = {}
         self.recipients = {}
         #self.msgById = {}
         self.postsByKey = {}
@@ -101,6 +104,12 @@ class MailParser:
                 traceback.print_exc()
         t1 = time.time()
         print "scanned in %.3fsecs" % (t1-t0)
+
+    def getUsername(self, name, email):
+        username = email[:email.find("@")]
+        if not username:
+            raise ValueError
+        return username
 
     def process(self, key):
         #print key
@@ -137,15 +146,16 @@ class MailParser:
             print "*** problem with refs"
         subject = msg['Subject']
         subject = decode_header(subject)[0][0]
-        self.subjects[key] = subject
         author = msg['From']
-        self.authors[key] = author
+        author_name, author_email = email.utils.parseaddr(author)
         recipient = msg['To']
         self.recipients[recipient] = 1
         date = msg['Date']
         date = getDate(date)
         post['date'] = date
-        post['author'] = author
+        post['author_username'] = self.getUsername(author_name, author_email)
+        post['author_name'] = author_name
+        post['author_email'] = author_email
         post['subject'] = subject
         path = str(key)
         parts = {}
@@ -215,15 +225,15 @@ class MailParser:
     def writePost(self, f, post, indent=""):
         key = post['key']
         print indent+"writePost", key
-        author = post['author']
+        author_name = post['author_name']
         subject = post['subject']
-        dateStr = post['date']
-        print key, author
+        dateStr = getDateStr(post['date'])
+        print key, author_name
         print subject
         if 'url' not in post:
             print "*** skipping %s because no URL" % key
             return
-        vals = {'author': getAuthor(author),
+        vals = {'author': getAuthor(author_name),
                 'dateStr': dateStr,
                 'msgUrl': "%s" % post['msgUrl'],
                 'htmlUrl': "%s" % post['url'],
