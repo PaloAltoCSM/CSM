@@ -3,7 +3,7 @@
 <html lang="{{ LANGUAGE_CODE }}">
   <head>
     <meta charset="utf-8">
-    <title>{% block title %}{% endblock title %}{% block title-page %}{% endblock title-page %} - Zinnia's Weblog</title>
+    <title>{% block title %}{% endblock title %}{% block title-page %}{% endblock title-page %} - Weblog</title>
     <meta name="robots" content="follow, all" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="{% block meta-description %}{% trans "connecting the world...." %}{% endblock meta-description %}{% block meta-description-page %}{% endblock meta-description-page %}" />
@@ -45,8 +45,20 @@
           </p>
         </form>
         <h1>
-          <a href="{% url 'zinnia:entry_archive_index' %}" title="Zinnia's Weblog" rel="home">
-           CSM blog
+          <a href="{% url 'zinnia:entry_archive_index' %}" title="CSM Weblog" rel="home" style="font-size:1.8em">
+           CSM 
+          </a>
+          &nbsp;
+          <a href="{% url 'about' %}" title="About CSM" rel="home">
+           about 
+          </a>
+          &nbsp;
+          <a href="{% url 'zinnia:entry_archive_index' %}" title="CSM Weblog" rel="home">
+           blog 
+          </a>
+          &nbsp;
+          <a href="{% url 'members' %}" title="CSM Members" rel="home">
+           members 
           </a>
         </h1>
         <blockquote>

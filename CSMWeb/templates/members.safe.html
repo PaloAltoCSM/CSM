@@ -1,0 +1,35 @@
+{% extends 'zinnia/skel.html' %}
+{% load staticfiles %}
+{% block title %}About CSM{% endblock %}
+{% block navtitle %}CSM{% endblock %}
+{% block jsext %}
+
+<link rel="stylesheet" href="{% static "css/grid.css" %}" type="text/css" />
+
+<style type="text/css">
+</style>
+
+{% endblock jsext %}
+
+{% block content %}
+
+<!--
+<div class="span6 pull-right" style="text-align:right">
+   <img src="{% static "img/brain-net.png" %}" width="260" height="180">
+</div>
+-->
+
+<h2>CSM Members</h2>
+
+The founding members of CSM were Forrest Bennett, Don Kimber and Steve Omohundro.
+
+&nbsp;<p>
+
+  <h3>
+    Many <a href="{% url 'zinnia:author_list' %}">authors</a> have contributed posts.
+    <a href="{% url 'zinnia:author_list' %}">{ % trans "Authors" % }</a>
+  </h3>
+  {% get_authors %}
+
+{% endblock content %}
+

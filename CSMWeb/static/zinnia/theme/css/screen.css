@@ -203,11 +203,14 @@ table {
 .zinnia #header {
   margin-bottom: 1em; }
   .zinnia #header h1 {
-    margin-top: 0.5em;
+    margin-top: 0.3em;
     margin-bottom: 0;
-    font-weight: bold; }
-    .zinnia #header h1:first-letter {
+    font-size: 130%;
+    font-weight: bold;
+ }
+/*    .zinnia #header h1:first-letter {
       font-size: 130%; }
+*/
   .zinnia #header blockquote {
     border: none;
     background: none;
@@ -250,11 +253,12 @@ table {
       display: block; } }
   @media (min-width: 768px) {
     .zinnia #header h1 {
-      font-size: 4em; } }
+      font-size: 3.5em; } }
   @media (min-width: 1024px) {
     .zinnia #header h1 {
       background: transparent url("../img/logo.png") no-repeat scroll left center;
-      padding-left: 1.5em; }
+      padding-top: 0.1em;
+      padding-left: 1.9em; }
     .zinnia #header blockquote {
       margin-left: 6em; } }
 

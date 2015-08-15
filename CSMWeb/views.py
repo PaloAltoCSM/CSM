@@ -34,7 +34,8 @@ def toBool(val):
 
 
 def index(request):
-    return render_to_response('index.html', locals(), RequestContext(request))
+#    return render_to_response('index.html', locals(), RequestContext(request))
+    return redirect('/blog')
 
 def about(request):
     return render_to_response('about.html', locals(), RequestContext(request))
